@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Project Shiroda</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2712%27 fill=%27%238C4A30%27/%3E%3Crect x=%2716%27 y=%2740%27 width=%2732%27 height=%274%27 fill=%27%233C7348%27/%3E%3Ctext x=%2732%27 y=%2736%27 font-family=%27Georgia%27 font-size=%2726%27 fill=%27%23DDE1E4%27 text-anchor=%27middle%27%3ES%3C/text%3E%3C/svg%3E">
+<meta name="description" content="An invitation to an ultra-luxury golf and wellness estate on the Konkan coast.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivory:#F4F0E6; --plaster:#EDE6D6; --sand:#E8D9B5; --ink:#1F2A33; --ink-d:#151C22; --char:#2C2C2A; --muted:#5F5E5A;
+  --laterite:#8C4A30; --sea:#2F6F86; --fairway:#2E5E3A;
+  --gold:#B8975A; --gold-l:#E7CF9A; --steel:#C9CED3;
+  --serif:"Cormorant Garamond", Georgia, serif; --sans:Inter, system-ui, -apple-system, sans-serif;
+  --hindi:"Tiro Devanagari Hindi", serif;
+  --gutter:clamp(16px, 4vw, 56px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--ink-d);color:var(--ivory);font-family:var(--sans);font-size:16px;line-height:1.6;overflow-x:hidden}
+body.locked{overflow:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+.kicker{font:500 12px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--gold-l)}
+
+/* =================== GATES =================== */
+#gates{position:fixed;inset:0;z-index:60;perspective:1800px;overflow:hidden}
+#gates.gone{display:none}
+.leaf{position:absolute;top:0;bottom:0;width:50.2%;background:
+   radial-gradient(circle at 20% 30%,rgba(120,100,70,.06) 0 2px,transparent 3px) 0 0/37px 41px,
+   radial-gradient(circle at 70% 60%,rgba(255,255,255,.35) 0 1px,transparent 2px) 0 0/23px 29px,
+   linear-gradient(180deg,#F1EBDD 0%,#E7DFCD 100%);
+  box-shadow:inset 0 0 120px rgba(90,70,40,.18);
+  transition:transform 2.6s cubic-bezier(.65,.02,.25,1);backface-visibility:hidden;will-change:transform}
+.leaf.l{left:0;transform-origin:0 50%}
+.leaf.r{right:0;transform-origin:100% 50%}
+.leaf::before{ /* tall arched panel in relief */
+  content:"";position:absolute;top:12%;bottom:9%;width:58%;border-radius:999px 999px 6px 6px;
+  border:2px solid rgba(140,74,48,.45);box-shadow:inset 0 0 0 10px rgba(255,255,255,.35), inset 0 0 0 11px rgba(140,74,48,.25)}
+.leaf.l::before{right:14%}.leaf.r::before{left:14%}
+.leaf::after{ /* laterite plinth */
+  content:"";position:absolute;left:0;right:0;bottom:0;height:5%;
+  background:radial-gradient(circle at 30% 40%,rgba(78,39,22,.5) 0 1.5px,transparent 2px) 0 0/19px 17px,linear-gradient(#8C4A30,#6e3722)}
+.handle{position:absolute;top:44%;width:10px;height:14%;border-radius:6px;background:linear-gradient(90deg,#7D868E,#F2F4F6 45%,#6E777F);box-shadow:0 4px 10px rgba(0,0,0,.25)}
+.leaf.l .handle{right:4%}.leaf.r .handle{left:4%}
+.seam{position:absolute;top:0;bottom:0;left:50%;width:2px;transform:translateX(-50%);background:#fff3d6;box-shadow:0 0 0 rgba(255,236,190,0);opacity:.0;transition:opacity .8s ease, box-shadow 1s ease, width 1s ease}
+.gate-title{position:absolute;left:0;right:0;top:20%;text-align:center;z-index:3;transition:opacity .8s ease, transform .8s ease;pointer-events:none}
+.gate-title .name{font:500 clamp(40px,8vw,96px)/1 var(--serif);color:#5a3a26;letter-spacing:.02em}
+.gate-title .rule{width:70px;height:3px;background:#3C7348;margin:20px auto 16px}
+.gate-title .sub{font:500 12px/1 var(--sans);letter-spacing:.32em;text-transform:uppercase;color:#8a6a4c}
+.gate-cta{position:absolute;left:0;right:0;bottom:max(9vh,36px);text-align:center;z-index:3;transition:opacity .6s ease}
+.btn{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(231,207,154,.55);background:rgba(20,27,33,.35);color:var(--ivory);padding:14px 26px;border-radius:999px;font:500 13px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:background .3s,border-color .3s;text-decoration:none}
+.btn:hover,.btn:focus-visible{background:rgba(231,207,154,.14);border-color:var(--gold-l);outline:none}
+.btn.dark{background:#2C2C2A;border-color:#2C2C2A;color:var(--ivory)}
+.btn.dark:hover{background:#3a3a37}
+.skip{position:absolute;top:max(18px,env(safe-area-inset-top));right:var(--gutter);z-index:4;font:500 11px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:#8a6a4c;background:none;border:0;cursor:pointer}
+/* opening sequence */
+#gates.opening .gate-title{opacity:0;transform:translateY(-12px)}
+#gates.opening .gate-cta,#gates.opening .skip{opacity:0;pointer-events:none}
+#gates.opening .seam{opacity:1;width:6px;box-shadow:0 0 40px 14px rgba(255,236,190,.9),0 0 140px 50px rgba(255,220,150,.5)}
+#gates.swing .leaf.l{transform:rotateY(-108deg)}
+#gates.swing .leaf.r{transform:rotateY(108deg)}
+#gates.swing .seam{opacity:0;transition-delay:.4s}
+
+/* =================== CHROME =================== */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:max(14px,env(safe-area-inset-top)) var(--gutter) 14px;pointer-events:none;background:linear-gradient(rgba(15,20,25,.55),transparent);transition:color .4s, background .4s}
+.wordmark{font:500 12px/1 var(--sans);letter-spacing:.3em;text-transform:uppercase}
+.topbar .btn{pointer-events:auto;padding:10px 18px;font-size:11px}
+body.light .topbar{color:var(--char);background:linear-gradient(rgba(244,240,230,.94),rgba(244,240,230,0))}
+body.light .topbar .btn{color:var(--char);border-color:rgba(44,44,42,.35);background:transparent}
+.rail{position:fixed;right:clamp(10px,1.6vw,24px);top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:10px}
+.rail a{display:block;width:8px;height:8px;border-radius:50%;border:1px solid rgba(244,240,230,.55);transition:all .3s}
+.rail a.on{background:var(--gold-l);border-color:var(--gold-l);transform:scale(1.35)}
+@media (max-width:760px){.rail{display:none}}
+
+/* =================== PLATES =================== */
+/* The whole image is always shown (no crop); a blurred copy fills any spare space. */
+.plate{--ar:1.5;position:relative}
+.stage{position:relative;height:min(92svh, calc(100vw / var(--ar)));overflow:hidden;background:var(--ink-d)}
+.stage .blur{position:absolute;inset:-60px;background-size:cover;background-position:center;filter:blur(38px) brightness(.5) saturate(1.1)}
+.stage .pic{position:relative;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.985);transition:opacity 1.4s ease, transform 2.2s cubic-bezier(.2,.6,.2,1)}
+.plate.in .stage .pic{opacity:1;transform:none}
+.plate.tall{--ar:.75}
+.plate.wide{--ar:3}
+@media (max-width:760px){
+  .stage{height:calc(100vw / var(--ar))}
+  .plate.tall .stage{height:min(133vw, 88svh)}
+}
+.caption{background:var(--ink);padding:clamp(36px,5vw,64px) var(--gutter) clamp(44px,6vw,80px)}
+.caption .inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,5vw,72px);align-items:start;opacity:0;transform:translateY(18px);transition:opacity 1s ease .2s, transform 1s ease .2s}
+.plate.in .caption .inner{opacity:1;transform:none}
+.caption .head{display:flex;flex-direction:column;gap:12px}
+.caption .num{font:italic 400 18px/1 var(--serif);color:rgba(244,240,230,.45)}
+.caption h2{font:500 clamp(32px,4vw,52px)/1.05 var(--serif)}
+.caption ul{list-style:none;display:grid;gap:12px;padding-top:6px}
+.caption li{position:relative;padding-left:26px;font-size:16px;color:rgba(244,240,230,.86)}
+.caption li::before{content:"";position:absolute;left:0;top:.8em;width:13px;height:1.5px;background:var(--gold)}
+.caption li.near{color:var(--gold-l)}
+.caption .cols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.caption h3{font:italic 500 22px/1.2 var(--serif);color:var(--gold-l);margin-bottom:12px}
+@media (max-width:760px){
+  .caption .inner{grid-template-columns:1fr}
+  .caption .cols{grid-template-columns:1fr;gap:18px}
+  .caption li{font-size:15px}
+}
+/* poems */
+.poem .caption{text-align:center;padding-top:clamp(44px,6vw,80px)}
+.poem .caption .inner{display:block;max-width:900px}
+.poem .en{font:500 clamp(34px,5.4vw,68px)/1.08 var(--serif);max-width:18ch;margin:18px auto 0}
+.poem .hi{font:400 clamp(18px,2.2vw,24px)/1.6 var(--hindi);color:var(--sand);margin-top:20px}
+.poem .call{font:italic 400 clamp(20px,2.4vw,28px)/1 var(--serif);color:var(--gold-l);margin-top:26px}
+.scrollcue{display:inline-block;margin-top:36px;font:500 11px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:rgba(244,240,230,.6);animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(6px)}}
+
+/* map */
+.map .stage svg{position:relative;width:100%;height:100%;display:block}
+.route{fill:none;stroke:#F2D9A0;stroke-width:6;stroke-dasharray:18 12;stroke-linecap:round}
+.chip rect{fill:rgba(20,27,33,.82)}
+.chip .t1{font:500 26px var(--sans);fill:#F4F0E6}
+.chip .t2{font:400 22px var(--sans);fill:#C8CCCC}
+.site{font:500 22px var(--sans);fill:#E7CF9A;letter-spacing:6px}
+.sea{font:italic 400 48px var(--serif);fill:rgba(244,240,230,.88)}
+.pulse{transform-origin:center;transform-box:fill-box;animation:pulse 2.6s ease-out infinite}
+@keyframes pulse{0%{opacity:.6;transform:scale(.6)}100%{opacity:0;transform:scale(2.2)}}
+.map .draw{stroke-dashoffset:0;animation:none}
+@media (max-width:760px){.chip,.sea{display:none}}
+
+/* register */
+#register{background:var(--ivory);color:var(--char);padding:clamp(64px,10vw,120px) var(--gutter)}
+.reg{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(32px,6vw,80px)}
+.reg h2{font:500 clamp(34px,4.6vw,54px)/1.05 var(--serif);margin:14px 0 18px}
+.reg .kicker{color:var(--laterite)}
+.reg p{color:var(--muted);max-width:38ch}
+form{display:grid;grid-template-columns:1fr 1fr;gap:16px 18px}
+.field{display:grid;gap:6px}
+.field.full{grid-column:1/-1}
+label{font:500 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+input,select,textarea{font:400 16px/1.4 var(--sans);color:var(--char);background:transparent;border:0;border-bottom:1px solid #C9C4B6;padding:10px 0;border-radius:0;outline:none;transition:border-color .3s;width:100%}
+textarea{resize:vertical;min-height:72px}
+input:focus,select:focus,textarea:focus{border-color:var(--laterite)}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choices label{display:inline-flex;align-items:center;gap:8px;border:1px solid #C9C4B6;border-radius:999px;padding:10px 16px;cursor:pointer;color:var(--char);text-transform:none;letter-spacing:.04em;font:400 14px/1 var(--sans)}
+.choices input{width:auto;accent-color:var(--fairway)}
+.choices label:has(input:checked){border-color:var(--fairway);background:rgba(46,94,58,.08)}
+.submit{grid-column:1/-1;justify-self:start;margin-top:8px;background:var(--fairway);color:var(--ivory);border:0;padding:16px 30px;border-radius:999px;font:500 12px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
+.submit:hover{background:#244b2e}
+.consent{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+.thanks{display:none;grid-column:1/-1;font:italic 400 24px/1.4 var(--serif);color:var(--fairway)}
+form.done > *:not(.thanks){display:none}form.done .thanks{display:block}
+@media (max-width:800px){.reg{grid-template-columns:1fr}form{grid-template-columns:1fr}}
+footer{background:var(--ivory);color:var(--muted);border-top:1px solid #DDD7C8;padding:28px var(--gutter);font-size:12px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+footer b{color:var(--char);letter-spacing:.2em;font-weight:500}
+
+/* ===== motion layer ===== */
+.progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--gold),var(--gold-l));z-index:30}
+.counter{font:italic 400 15px/1 var(--serif);color:rgba(244,240,230,.75);margin-left:14px;min-width:56px;display:inline-block}
+body.light .counter{color:var(--muted)}
+/* image unveils like the scroll unrolling */
+.stage .pic{clip-path:inset(0 100% 0 0);transition:clip-path 1.8s cubic-bezier(.7,0,.2,1), opacity .6s ease, transform 2.4s cubic-bezier(.2,.6,.2,1)}
+.plate.in .stage .pic{clip-path:inset(0 0 0 0)}
+.stage .sheen{position:absolute;inset:0;pointer-events:none;background:linear-gradient(100deg,transparent 0%,rgba(255,240,205,.0) 40%,rgba(255,240,205,.35) 50%,rgba(255,240,205,0) 60%,transparent 100%);transform:translateX(-110%);}
+.plate.in .stage .sheen{animation:sheen 2.2s ease .5s 1 both}
+@keyframes sheen{to{transform:translateX(110%)}}
+.stage .blur{will-change:transform}
+/* staggered caption */
+.caption .inner > *, .caption li, .caption h3{opacity:0;transform:translateY(14px);transition:opacity .9s ease, transform .9s cubic-bezier(.2,.6,.2,1)}
+.plate.in .caption .inner > *, .plate.in .caption li, .plate.in .caption h3{opacity:1;transform:none}
+.caption .inner{opacity:1;transform:none}
+/* word-by-word for opener/closer */
+.poem .en .w{display:inline-block;opacity:0;transform:translateY(.4em);filter:blur(6px);transition:opacity 1s ease, transform 1s cubic-bezier(.2,.6,.2,1), filter 1s ease}
+.plate.in .en .w{opacity:1;transform:none;filter:none}
+/* map choreography */
+.map .route{stroke-dasharray:18 12;stroke-dashoffset:0;opacity:0;transition:opacity .4s ease}
+.map.in .route{opacity:1;animation:draw 2.6s cubic-bezier(.6,0,.2,1) .6s both}
+@keyframes draw{from{stroke-dashoffset:900}to{stroke-dashoffset:0}}
+.map .pin,.map .chip,.map .sea{opacity:0;transition:opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1.2)}
+.map .pin{transform-origin:center;transform-box:fill-box;transform:scale(.2)}
+.map.in .pin{opacity:1;transform:none}
+.map.in .chip,.map.in .sea{opacity:1}
+.map.in .pin.site{transition-delay:.3s}.map.in .pin.a1{transition-delay:2.4s}.map.in .pin.a2{transition-delay:2.6s}
+.map.in .chip.c0{transition-delay:.9s}.map.in .chip.c1{transition-delay:2.7s}.map.in .chip.c2{transition-delay:2.9s}
+/* drifting motes of light */
+.motes{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen}
+/* gate: soft breathing seam before opening */
+.seam{opacity:.35;animation:breathe 3.2s ease-in-out infinite}
+@keyframes breathe{50%{opacity:.7;box-shadow:0 0 18px 4px rgba(255,236,190,.55)}}
+#gates.opening .seam{animation:none}
+.gate-title .name{animation:rise 1.6s cubic-bezier(.2,.6,.2,1) both}
+.gate-title .rule{animation:grow 1.2s ease .6s both}
+.gate-title .sub,.gate-cta{animation:fadein 1.2s ease 1s both}
+@keyframes rise{from{opacity:0;transform:translateY(18px);letter-spacing:.12em}to{opacity:1;transform:none}}
+@keyframes grow{from{width:0}}
+@keyframes fadein{from{opacity:0}}
+#gates.swing .leaf{filter:brightness(.92)}
+@media (max-width:760px){
+  .counter{display:none}
+  .wordmark{letter-spacing:.22em;font-size:11px}
+  .topbar .btn{padding:8px 13px;font-size:10px;letter-spacing:.12em}
+}
+.topbar .btn{white-space:nowrap}
+@media (prefers-reduced-motion:reduce){
+  .stage .pic{clip-path:none!important}
+  .poem .en .w,.caption .inner > *,.caption li,.caption h3,.map .pin,.map .chip,.map .sea,.map .route{opacity:1!important;transform:none!important;filter:none!important}
+  .motes{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;transition-delay:0s!important;animation:none!important}
+}
+</style>
+</head>
+<body class="locked">
+
+<!-- =================== THE GATES =================== -->
+<div id="gates" role="dialog" aria-label="Project Shiroda">
+  <div class="leaf l"><span class="handle"></span></div>
+  <div class="leaf r"><span class="handle"></span></div>
+  <div class="seam"></div>
+  <div class="gate-title">
+    <div class="name">Project Shiroda</div>
+    <div class="rule"></div>
+    <div class="sub">By invitation</div>
+  </div>
+  <div class="gate-cta"><button class="btn dark" id="openGates">Open the gates</button></div>
+  <button class="skip" id="skip">Skip</button>
+</div>
+
+<div class="progress" id="progress"></div>
+<header class="topbar">
+  <span><span class="wordmark">Project Shiroda</span><span class="counter" id="counter"></span></span>
+  <a class="btn" href="#register">Register interest</a>
+</header>
+<nav class="rail" id="rail" aria-label="Plates"></nav>
+
+<main>
+
+<section class="plate poem tall" id="p01" data-img="01">
+  <figure class="stage"><div class="blur"></div><img class="pic" alt="Dawn over the estate: a villa, the clubhouse arcade, golfers and cyclists, with the sun rising behind distant hills"><div class="sheen"></div><canvas class="motes"></canvas></figure>
+  <div class="caption"><div class="inner">
+    <span class="kicker">An invitation</span>
+    <p class="en">Peace is no longer a feeling. It’s an address.</p>
+    <span class="scrollcue">Scroll to unfold</span>
+  </div></div>
+</section>
+
+<section class="plate" id="p02" data-img="02">
+  <figure class="stage"><div class="blur"></div><img class="pic" loading="lazy" alt="A long, clean Konkan beach with watersports offshore and a private resident set-up under the casuarinas"><div class="sheen"></div></figure>
+  <div class="caption"><div class="inner">
+    <div class="head"><span class="num">02</span><span class="kicker">The coast</span><h2>Where the Konkan meets the sea</h2></div>
+    <ul>
+      <li>Shiroda, Sindhudurg: the southern tip of Maharashtra’s Konkan coast, on the Goa border</li>
+      <li>6 km from Shiroda beach, with Velagar, Redi and Aravali close by</li>
+      <li>Shore Days: a chauffeured jeep, shaded loungers and a beach butler for residents</li>
+      <li>Jet skis, parasailing and a private jetty for sea days</li>
+      <li class="near">On the horizon: a Taj luxury resort by IHCL at Shiroda–Velagar</li>
+    </ul>
+  </div></div>
+</section>
+
+<section class="plate" id="p03" data-img="03">
+  <figure class="stage"><div class="blur"></div><img class="pic" loading="lazy" alt="The sports club's resort pool with a beach entry, arched swim-up bar, cabanas and a kids' splash pool"><div class="sheen"></div></figure>
+  <div class="caption"><div class="inner">
+    <div class="head"><span class="num">03</span><span class="kicker">The pool</span><h2>Our own shore</h2></div>
+    <ul>
+      <li>A lagoon-style pool with a soft sand beach entry, behind the sports club</li>
+      <li>Arched swim-up bar, cabanas and daybeds</li>
+      <li>A kids’ splash pool and pool volleyball</li>
+    </ul>
+  </div></div>
+</section>
+
+<section class="plate map" id="p04" data-img="04">
+  <figure class="stage"><div class="blur"></div>
+    <svg viewBox="0 0 1536 1024" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Map: Mopa International Airport about 30 minutes and Sindhudurg Airport about 1 hour from Project Shiroda">
+      <image class="mapimg" width="1536" height="1024"/>
+      <path class="route" d="M899 932 Q830 782 659 688"/>
+      <path class="route" d="M750 213 Q785 475 659 684"/>
+      <circle class="pulse pin site" cx="659" cy="688" r="48" fill="#B8975A"/>
+      <circle class="pin site" cx="659" cy="688" r="20" fill="#B8975A" stroke="#fff" stroke-width="5"/>
+      <circle class="pin a1" cx="899" cy="932" r="14" fill="#F4F0E6" stroke="#1F2A33" stroke-width="4"/>
+      <circle class="pin a2" cx="750" cy="209" r="14" fill="#F4F0E6" stroke="#1F2A33" stroke-width="4"/>
+      <g class="chip c0" transform="translate(712 612)"><rect width="350" height="54" rx="6"/><text class="site" x="22" y="36">PROJECT SHIRODA</text></g>
+      <g class="chip c2" transform="translate(790 172)"><rect width="560" height="100" rx="6"/><text class="t1" x="24" y="42">Sindhudurg Airport (Chipi)</text><text class="t2" x="24" y="78">~45 km · ~1 hr · via NH-66 &amp; SH-123</text></g>
+      <g class="chip c1" transform="translate(930 880)"><rect width="560" height="100" rx="6"/><text class="t1" x="24" y="42">Mopa International Airport (GOX)</text><text class="t2" x="24" y="78">~25 km · ~30 min · via NH-66</text></g>
+      <text class="sea c0" x="60" y="530">Arabian Sea</text>
+    </svg>
+  </figure>
+  <div class="caption"><div class="inner">
+    <div class="head"><span class="num">04</span><span class="kicker">Arrival</span><h2>Getting here</h2></div>
+    <ul>
+      <li>Mopa International Airport (GOX): about 25 km, 30 minutes</li>
+      <li>Sindhudurg (Chipi) Airport: about 45 km, an hour</li>
+      <li>By road via NH-66 and SH-123; North Goa within easy reach</li>
+      <li>Mumbai about an hour by air from Mopa</li>
+    </ul>
+  </div></div>
+</section>
+
+<section class="plate" id="p05" data-img="05">
+  <figure class="stage"><div class="blur"></div><img class="pic" loading="lazy" alt="A sweeping fairway with white-sand bunkers, a lake with a fountain, golf carts and villas set back behind trees"><div class="sheen"></div></figure>
+  <div class="caption"><div class="inner">
+    <div class="head"><span class="num">05</span><span class="kicker">The front nine</span><h2>The course</h2></div>
+    <ul>
+      <li>18-hole championship course, built to professional grade</li>
+      <li>Designed to qualify for PGA affiliation</li>
+      <li>Around 140 acres of fairways and greens</li>
+      <li>Walking and cycling paths along the course edge</li>
+      <li>Course designer to be announced</li>
+    </ul>
+  </div></div>
+</section>
+
+<section class="plate wide" id="p06" data-img="0607">
+  <figure class="stage"><div class="blur"></div><img class="pic" loading="lazy" alt="The clubhouse arcade and reflecting pool beside a spa garden of hot pools, jacuzzi, sauna and a yoga shala"><div class="sheen"></div></figure>
+  <div class="caption"><div class="inner">
+    <div class="head"><span class="num">06–07</span><span class="kicker">The turn</span><h2>The clubhouse and the sanctuary</h2></div>
+    <div class="cols">
+      <div><h3>Ultra-luxury clubhouse</h3><ul><li>Bar and lounge</li><li>Breakfast and lunch</li><li>Terrace over the 9th green</li></ul></div>
+      <div><h3>The wellness sanctuary</h3><ul><li>Spa and therapies, Ayurvedic and modern</li><li>Yoga, hydrotherapy and jacuzzi</li><li>Sauna, steam, ice room and cold plunge</li><li>A branded five-star wellness resort, partner in discussion</li></ul></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="plate" id="p08" data-img="08">
+  <figure class="stage"><div class="blur"></div><img class="pic" loading="lazy" alt="Aerial view of the back nine at golden hour: two lakes, a peninsula green and villas along the fairways"><div class="sheen"></div><canvas class="motes"></canvas></figure>
+  <div class="caption"><div class="inner">
+    <div class="head"><span class="num">08</span><span class="kicker">The back nine</span><h2>Toward the hills</h2></div>
+    <ul>
+      <li>Two lakes, a peninsula green and championship bunkering</li>
+      <li>The 18th finishes at the sports club</li>
+      <li>254 acres in all: the course, villas, two clubs, sanctuary and sport</li>
+    </ul>
+  </div></div>
+</section>
+
+<section class="plate" id="p09" data-img="09">
+  <figure class="stage"><div class="blur"></div><img class="pic" loading="lazy" alt="A mirror-steel wave sculpture rising from a lake beside the walking path"><div class="sheen"></div></figure>
+  <div class="caption"><div class="inner">
+    <div class="head"><span class="num">09</span><span class="kicker">The art</span><h2>A gallery without walls</h2></div>
+    <ul>
+      <li>Vibhor Sogani, artistic director of the estate</li>
+      <li>Signature installations along fairways, arrivals and public spaces</li>
+      <li>By the creator of Sprouts, India’s largest public art installation</li>
+    </ul>
+  </div></div>
+</section>
+
+<section class="plate" id="p10" data-img="10">
+  <figure class="stage"><div class="blur"></div><img class="pic" loading="lazy" alt="A two-storey villa at golden hour with a planted roof and infinity pool facing the golf course"><div class="sheen"></div></figure>
+  <div class="caption"><div class="inner">
+    <div class="head"><span class="num">10</span><span class="kicker">The homes</span><h2>350 villas</h2></div>
+    <ul>
+      <li>Villas on 750, 1,000, 1,250 and 1,500 sq yd plots</li>
+      <li>Two storeys, each with a private infinity pool</li>
+      <li>Homes fronting the fairways and greens</li>
+      <li>Every home includes both clubs, the pool, the sanctuary and Shore Days</li>
+    </ul>
+  </div></div>
+</section>
+
+<section class="plate" id="p11" data-img="11">
+  <figure class="stage"><div class="blur"></div><img class="pic" loading="lazy" alt="Tennis and padel courts at sunset beside the sports club, with a lantern-lit dinner on the lawn"><div class="sheen"></div></figure>
+  <div class="caption"><div class="inner">
+    <div class="head"><span class="num">11</span><span class="kicker">The club</span><h2>Play</h2></div>
+    <ul>
+      <li>Courts: tennis, padel, pickleball, squash</li>
+      <li>Indoors: gym, bowling alley, billiards, table tennis</li>
+      <li>Bike stations and paths across the estate</li>
+    </ul>
+  </div></div>
+</section>
+
+<section class="plate poem tall" id="p12" data-img="12">
+  <figure class="stage"><div class="blur"></div><img class="pic" loading="lazy" alt="The estate at blue hour: the sports club, its glowing pool, and villas along the fairways"><div class="sheen"></div><canvas class="motes"></canvas></figure>
+  <div class="caption"><div class="inner">
+    <span class="kicker">Dusk</span>
+    <p class="en">First the hills. Then the green. Then the sea. And at last, you.</p>
+    <p class="call">Your key is waiting.</p>
+  </div></div>
+</section>
+
+<section id="register">
+  <div class="reg">
+    <div>
+      <span class="kicker">By invitation</span>
+      <h2>Register your interest</h2>
+      <p>A limited number of founding homes and investment places. Leave your details and we will be in touch personally.</p>
+    </div>
+    <form id="form" novalidate>
+      <div class="field"><label for="f-name">Full name</label><input id="f-name" name="name" autocomplete="name" required></div>
+      <div class="field"><label for="f-phone">Phone / WhatsApp</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" required></div>
+      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="f-city">City</label><input id="f-city" name="city" autocomplete="address-level2"></div>
+      <div class="field full"><label>I am interested as</label>
+        <div class="choices">
+          <label><input type="radio" name="interest" value="Investor" required> Investor</label>
+          <label><input type="radio" name="interest" value="Home buyer"> Home buyer</label>
+          <label><input type="radio" name="interest" value="Both"> Both</label>
+        </div></div>
+      <div class="field full"><label for="f-ticket">Indicative ticket size</label>
+        <select id="f-ticket" name="ticket">
+          <option value="">Prefer to discuss</option>
+          <option>Up to ₹5 Cr</option><option>₹5–10 Cr</option><option>₹10–25 Cr</option><option>₹25 Cr+</option>
+        </select></div>
+      <div class="field full"><label for="f-note">Anything you would like us to know</label><textarea id="f-note" name="note"></textarea></div>
+      <input type="hidden" name="ref" id="f-ref">
+      <p class="consent">We will use these details only to contact you about Project Shiroda.</p>
+      <button class="submit" type="submit">Request a conversation</button>
+      <p class="thanks">Thank you. Someone from the team will be in touch with you personally.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <span><b>GEOTEC HOMES</b> · Project Shiroda, Sindhudurg</span>
+  <span>All images are artist’s impressions and concept imagery for illustration only. Distances are approximate.</span>
+</footer>
+
+<script>
+/* ---------- Images (bundled in ./img) ---------- */
+document.querySelectorAll('[data-img]').forEach(sec=>{
+  const src = 'img/' + sec.dataset.img + '.webp';
+  const pic = sec.querySelector('.pic'); if (pic) pic.src = src;
+  const mi = sec.querySelector('.mapimg'); if (mi) mi.setAttribute('href', src);
+  const bl = sec.querySelector('.blur'); if (bl) bl.style.backgroundImage = 'url("'+src+'")';
+});
+
+/* ---------- The gates ---------- */
+const gates = document.getElementById('gates');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function finish(){
+  gates.classList.add('gone'); document.body.classList.remove('locked');
+  document.getElementById('p01').classList.add('in');
+}
+function openGates(){
+  if (reduce){ finish(); return; }
+  gates.classList.add('opening');                       // title lifts, light seam ignites
+  setTimeout(()=> gates.classList.add('swing'), 900);    // leaves swing open
+  setTimeout(finish, 3500);
+}
+document.getElementById('openGates').addEventListener('click', openGates, {once:true});
+document.getElementById('skip').addEventListener('click', finish);
+document.addEventListener('keydown', e=>{ if (e.key==='Escape' && !gates.classList.contains('gone')) finish(); });
+
+/* ---------- Reveal + progress rail ---------- */
+const plates = [...document.querySelectorAll('.plate')];
+const rail = document.getElementById('rail');
+plates.forEach(p=>{ const a=document.createElement('a'); a.href='#'+p.id; a.setAttribute('aria-label','Plate '+p.id.slice(1)); rail.appendChild(a); });
+const dots = [...rail.children];
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if (e.isIntersecting){ e.target.classList.add('in'); dots.forEach(d=>d.classList.toggle('on', d.hash==='#'+e.target.id)); } });
+},{threshold:.2});
+plates.forEach(p=>io.observe(p));
+new IntersectionObserver(es=>es.forEach(e=>document.body.classList.toggle('light', e.isIntersecting)),{rootMargin:'0px 0px -85% 0px'}).observe(document.getElementById('register'));
+
+/* ---------- Motion layer ---------- */
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// word-by-word lines
+document.querySelectorAll('.poem .en').forEach(el=>{
+  const words = el.textContent.trim().split(/\s+/);
+  el.innerHTML = words.map((w,i)=>`<span class="w" style="transition-delay:${.25+i*.09}s">${w}</span>`).join(' ');
+});
+// stagger caption children
+document.querySelectorAll('.caption').forEach(c=>{
+  [...c.querySelectorAll('.inner > *, h3, li')].forEach((el,i)=>{ el.style.transitionDelay = (.15 + i*.08)+'s'; });
+});
+// progress bar, counter, parallax on the blurred backdrops
+const prog = document.getElementById('progress'), counter = document.getElementById('counter');
+const blurs = [...document.querySelectorAll('.stage .blur')];
+let ticking=false;
+function onScroll(){
+  if (ticking) return; ticking=true;
+  requestAnimationFrame(()=>{
+    const h = document.documentElement.scrollHeight - innerHeight;
+    prog.style.transform = 'scaleX(' + (h>0 ? scrollY/h : 0) + ')';
+    if (!RM) blurs.forEach(b=>{ const r=b.parentElement.getBoundingClientRect(); if (r.bottom>0 && r.top<innerHeight){ b.style.transform='translateY('+((r.top+r.height/2-innerHeight/2)*-.08)+'px) scale(1.06)'; } });
+    ticking=false;
+  });
+}
+addEventListener('scroll', onScroll, {passive:true}); onScroll();
+const labels = {p01:'01',p02:'02',p03:'03',p04:'04',p05:'05',p06:'06–07',p08:'08',p09:'09',p10:'10',p11:'11',p12:'12'};
+const cio = new IntersectionObserver(es=>es.forEach(e=>{ if (e.isIntersecting) counter.textContent = labels[e.target.id] + ' / 12'; }),{rootMargin:'-45% 0px -45% 0px'});
+plates.forEach(p=>cio.observe(p));
+// drifting motes of golden light on the opener and closer
+function motes(canvas, warm){
+  if (RM) return;
+  const ctx = canvas.getContext('2d'); let W,H,parts=[],run=false;
+  const dpr = Math.min(2, devicePixelRatio||1);
+  function size(){ W=canvas.clientWidth; H=canvas.clientHeight; canvas.width=W*dpr; canvas.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+  function seed(){ parts = Array.from({length: Math.round(Math.min(70, W*H/14000))}, ()=>({x:Math.random()*W,y:Math.random()*H,r:.6+Math.random()*2.2,vx:(Math.random()-.5)*.12,vy:-(.08+Math.random()*.25),a:Math.random()*Math.PI*2,s:.004+Math.random()*.01})); }
+  function frame(){
+    if (!run) return;
+    ctx.clearRect(0,0,W,H);
+    for (const p of parts){
+      p.x+=p.vx; p.y+=p.vy; p.a+=p.s;
+      if (p.y < -10){ p.y = H+10; p.x = Math.random()*W; }
+      const al = .25 + .35*Math.sin(p.a);
+      const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4);
+      g.addColorStop(0, warm ? `rgba(255,226,170,${al})` : `rgba(200,220,255,${al})`); g.addColorStop(1,'rgba(255,226,170,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*4,0,Math.PI*2); ctx.fill();
+    }
+    requestAnimationFrame(frame);
+  }
+  size(); seed();
+  addEventListener('resize', ()=>{ size(); seed(); });
+  new IntersectionObserver(es=>es.forEach(e=>{ const was=run; run=e.isIntersecting; if (run && !was) frame(); })).observe(canvas);
+}
+document.querySelectorAll('#p01 .motes').forEach(c=>motes(c,true));
+document.querySelectorAll('#p12 .motes').forEach(c=>motes(c,false));
+
+/* ---------- Interest form ----------
+   Fill in SUPABASE below to collect submissions in a Supabase table named "interest".
+   Until then, submissions are kept only in the visitor's own browser. */
+const SUPABASE = { url: '', key: '' };
+document.getElementById('f-ref').value = new URLSearchParams(location.search).get('ref') || '';
+const form = document.getElementById('form');
+const btn = form.querySelector('.submit');
+form.addEventListener('submit', async e=>{
+  e.preventDefault();
+  if (!form.reportValidity()) return;
+  const d = Object.fromEntries(new FormData(form).entries());
+  const row = { name:d.name, phone:d.phone, email:d.email, city:d.city||null, interest:d.interest, ticket:d.ticket||null, note:d.note||null, ref:d.ref||null };
+  btn.disabled = true; btn.textContent = 'Sending…';
+  try {
+    if (SUPABASE.url && SUPABASE.key){
+      const r = await fetch(SUPABASE.url + '/rest/v1/interest', { method:'POST',
+        headers:{ 'apikey':SUPABASE.key, 'Authorization':'Bearer '+SUPABASE.key, 'Content-Type':'application/json', 'Prefer':'return=minimal' },
+        body: JSON.stringify(row) });
+      if (!r.ok) throw new Error('HTTP '+r.status);
+    } else {
+      const list = JSON.parse(localStorage.getItem('shirodaInterest') || '[]'); list.push({...row, at:new Date().toISOString()}); localStorage.setItem('shirodaInterest', JSON.stringify(list));
+    }
+    form.classList.add('done');
+  } catch(err){
+    btn.disabled = false; btn.textContent = 'Request a conversation';
+    alert('Sorry, that did not go through. Please try again in a moment.');
+  }
+});
+</script>
+</body>
+</html>
