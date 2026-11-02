@@ -159,12 +159,15 @@ footer b{color:var(--char);letter-spacing:.2em;font-weight:500}
 .progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--gold),var(--gold-l));z-index:30}
 .counter{font:italic 400 15px/1 var(--serif);color:rgba(244,240,230,.75);margin-left:14px;min-width:56px;display:inline-block}
 body.light .counter{color:var(--muted)}
-/* image unveils like the scroll unrolling */
-.stage .pic{clip-path:inset(0 100% 0 0);transition:clip-path 1.8s cubic-bezier(.7,0,.2,1), opacity .6s ease, transform 2.4s cubic-bezier(.2,.6,.2,1)}
+/* image unrolls from top to bottom, like the scroll opening */
+.stage .pic{clip-path:inset(0 0 100% 0);transition:clip-path 2s cubic-bezier(.65,0,.25,1), opacity .6s ease, transform 2.4s cubic-bezier(.2,.6,.2,1)}
 .plate.in .stage .pic{clip-path:inset(0 0 0 0)}
-.stage .sheen{position:absolute;inset:0;pointer-events:none;background:linear-gradient(100deg,transparent 0%,rgba(255,240,205,.0) 40%,rgba(255,240,205,.35) 50%,rgba(255,240,205,0) 60%,transparent 100%);transform:translateX(-110%);}
-.plate.in .stage .sheen{animation:sheen 2.2s ease .5s 1 both}
-@keyframes sheen{to{transform:translateX(110%)}}
+/* the rolled edge of the scroll travelling down with the reveal */
+.stage .sheen{position:absolute;left:0;right:0;top:0;height:22px;margin-top:-11px;pointer-events:none;opacity:0;
+  background:linear-gradient(180deg,rgba(255,244,214,0) 0%,rgba(255,244,214,.55) 45%,rgba(232,217,181,.9) 55%,rgba(60,40,20,.35) 100%);
+  box-shadow:0 6px 18px rgba(0,0,0,.35);border-radius:11px}
+.plate.in .stage .sheen{animation:roll 2s cubic-bezier(.65,0,.25,1) both}
+@keyframes roll{0%{top:0;opacity:1}90%{top:100%;opacity:1}100%{top:100%;opacity:0}}
 .stage .blur{will-change:transform}
 /* staggered caption */
 .caption .inner > *, .caption li, .caption h3{opacity:0;transform:translateY(14px);transition:opacity .9s ease, transform .9s cubic-bezier(.2,.6,.2,1)}
